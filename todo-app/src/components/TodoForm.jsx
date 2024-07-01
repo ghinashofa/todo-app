@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { EditTodoForm } from "./EditTodoForm";
 import ListTodo from "./ListTodo";
+import { BASE_URL } from '../url'
 
 export const TodoForm = () => {
     const [todos, setTodos] = useState([]);
@@ -12,7 +13,7 @@ export const TodoForm = () => {
     async function fetchData() {
         try {
             setLoading(true);
-            const response = await axios.get("http://localhost:3000/todos");
+            const response = await axios.get(BASE_URL + "todos");
             setTodos(response.data);
             console.log(response.data);
         } catch (err) {

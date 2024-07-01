@@ -3,6 +3,7 @@ import { MdDeleteOutline } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { EditTodoForm } from "./EditTodoForm";
 import axios from "axios";
+import { BASE_URL } from '../url'
 
 export default function ListTodo({ todos, fetchData, index }) {
     console.log(todos);
@@ -12,7 +13,7 @@ export default function ListTodo({ todos, fetchData, index }) {
     function handleDelete() {
         async function deleteTodo() {
             const response = await axios.delete(
-                `http://localhost:3000/todos/${todos.id}`
+                `${BASE_URL}todos/${todos.id}`
             );
             await fetchData();
             console.log("Setelah Delete", response.data);
@@ -23,7 +24,7 @@ export default function ListTodo({ todos, fetchData, index }) {
     function handleStatus(id, completed) {
         async function statusTodo() {
             const response = await axios.patch(
-                `http://localhost:3000/todos/${id}`,
+                `${BASE_URL}todos/${id}`,
                 {
                     completed: !completed,
                 }
@@ -38,7 +39,7 @@ export default function ListTodo({ todos, fetchData, index }) {
     function handleUpdate(e) {
         e.preventDefault();
         async function updateTodo() {
-            await axios.put(`http://localhost:3000/todos/${todos.id}`, {
+            await axios.put(`${BASE_URL}todos/${todos.id}`, {
                 id: todos.id,
                 title: editTitle,
                 completed: todos.completed,

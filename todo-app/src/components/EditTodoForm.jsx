@@ -2,6 +2,11 @@ import React from "react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { IoIosAdd } from "react-icons/io";
+import { BASE_URL } from '../url'
+
+//DEVELOPMENT
+//STAGING = SUDAH DI PUBLISH TP HANYA UNTUK USER TERBATAS
+//PRODUCTION
 
 export const EditTodoForm = ({ todos, setTodos }) => {
     const [newTodo, setNewTodo] = useState("");
@@ -11,13 +16,12 @@ export const EditTodoForm = ({ todos, setTodos }) => {
         setNewTodo(value);
     }
 
-    
     // String(Number(todos[todos.length - 1].id) + 1)
     function handleAddTodo(e) {
      
         e.preventDefault(); //ketika ini di klik diambil dari value
         async function addTodo() {
-            const response = await axios.post("http://localhost:3000/todos", {
+            const response = await axios.post(BASE_URL + "todos", {
                 id: String(Number(todos[todos.length - 1].id) + 1),
                 title: newTodo,
                 completed: false //pastikan false
