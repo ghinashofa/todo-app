@@ -5,15 +5,15 @@ import { EditTodoForm } from "./EditTodoForm";
 import axios from "axios";
 import { BASE_URL } from '../url'
 
-export default function ListTodo({ todos, fetchData, index }) {
-    console.log(todos);
+export default function ListTodo({ todo, fetchData, index }) {
+    console.log(todo);
     const [editTodo, setEditTodo] = useState(false);
-    const [editTitle, setEditTitle] = useState(todos.title);
+    const [editTitle, setEditTitle] = useState(todo.title);
 
     function handleDelete() {
         async function deleteTodo() {
             const response = await axios.delete(
-                `${BASE_URL}todos/${todos.id}`
+                `${BASE_URL}todo/${todo.id}`
             );
             await fetchData();
             console.log("Setelah Delete", response.data);
@@ -24,7 +24,7 @@ export default function ListTodo({ todos, fetchData, index }) {
     function handleStatus(id, completed) {
         async function statusTodo() {
             const response = await axios.patch(
-                `${BASE_URL}todos/${id}`,
+                `${BASE_URL}todo/${id}`,
                 {
                     completed: !completed,
                 }
@@ -33,16 +33,16 @@ export default function ListTodo({ todos, fetchData, index }) {
             console.log("checked", response.data);
         }
         statusTodo();
-        console.log(todos.completed);
+        console.log(todo.completed);
     }
 
     function handleUpdate(e) {
         e.preventDefault();
         async function updateTodo() {
-            await axios.put(`${BASE_URL}todos/${todos.id}`, {
-                id: todos.id,
+            await axios.put(`${BASE_URL}todo/${todo.id}`, {
+                id: todo.id,
                 title: editTitle,
-                completed: todos.completed,
+                completed: todo.completed,
             });
             await fetchData();
             setEditTodo(false);
@@ -50,7 +50,7 @@ export default function ListTodo({ todos, fetchData, index }) {
         updateTodo();
     }
 
-    if (!todos) {
+    if (!todo) {
         return <h2>Loading...</h2>;
     }
 
@@ -69,7 +69,6 @@ export default function ListTodo({ todos, fetchData, index }) {
                     gap: "16px",
                     textAlign: "left",
                     justifyContent: "space-between",
-                    textAlign: "left",
                 }}
             >
                 <li
@@ -79,22 +78,13 @@ export default function ListTodo({ todos, fetchData, index }) {
                         gap: "12px",
                     }}
                 >
-                    {/* {todos.completed ? (
-                        <span>
-                            <b>[selesai]</b>
-                        </span>
-                    ) : (
-                        <span>
-                            <b>[belum]</b>
-                        </span>
-                    )} */}
                     <div className="form-check">
                         <input
                             type="checkbox"
                             onChange={() =>
-                                handleStatus(todos.id, todos.completed)
+                                handleStatus(todo.id, todo.completed)
                             }
-                            checked={todos.completed}
+                            checked={todo.completed}
                         />
                     </div>
                     <div
@@ -116,7 +106,7 @@ export default function ListTodo({ todos, fetchData, index }) {
                                     }
                                     className="input-control"
                                     style={{
-                                        textDecoration: todos.completed
+                                        textDecoration: todo.completed
                                             ? "line-through"
                                             : "none",
                                         background: "none",
@@ -127,7 +117,7 @@ export default function ListTodo({ todos, fetchData, index }) {
                                 />
                             </form>
                         </li>
-                        <li>{todos?.completed}</li>
+                        <li>{todo?.completed}</li>
                     </div>
                 </li>
                 <div style={{ display: "flex", gap: "8px" }}>

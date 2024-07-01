@@ -15,7 +15,7 @@ export const TodoForm = () => {
             setLoading(true);
             const response = await axios.get(BASE_URL + "todos");
             setTodos(response.data);
-            console.log(response.data);
+            console.log("response data" + response.data);
         } catch (err) {
             setError(err);
         } finally {
@@ -29,7 +29,7 @@ export const TodoForm = () => {
     }, []);
     
     if (loading) {
-        return <h2>Loading...</h2>;
+        return <h2>Loading___</h2>;
     }
 
     return (
@@ -40,9 +40,10 @@ export const TodoForm = () => {
                 {loading ? (
                     <p>Loading...</p>
                 ) : (
-                    todos?.map((todos,index) => {
+                    todos?.map((todo,index) => {
                         return (
-                            <ListTodo todos={todos} index={index} key={index} fetchData={fetchData} />
+                            <ListTodo todos={todo} index={index} key={index} fetchData={fetchData} />
+                            
                         );
                     })
                 )}
